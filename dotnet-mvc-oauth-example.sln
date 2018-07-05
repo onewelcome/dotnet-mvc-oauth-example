@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 #
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneGiniAuthClient", "OneGiniAuthClient\OneGiniAuthClient.csproj", "{4CF1C881-FD7D-4FD9-A28B-5E861CD76FB3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetAspCoreMvcExample", "DotnetAspCoreMvcExample\DotnetAspCoreMvcExample.csproj", "{FCF1FBBE-1D87-4DB4-BDBD-CAD98A642650}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetAspCoreResourceGatewayExample", "DotnetAspCoreResourceGatewayExample\DotnetAspCoreResourceGatewayExample.csproj", "{4CA1A341-D078-447E-AE0D-AEC06858DEF0}"
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4CF1C881-FD7D-4FD9-A28B-5E861CD76FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CF1C881-FD7D-4FD9-A28B-5E861CD76FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CF1C881-FD7D-4FD9-A28B-5E861CD76FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CF1C881-FD7D-4FD9-A28B-5E861CD76FB3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCF1FBBE-1D87-4DB4-BDBD-CAD98A642650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCF1FBBE-1D87-4DB4-BDBD-CAD98A642650}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCF1FBBE-1D87-4DB4-BDBD-CAD98A642650}.Release|Any CPU.ActiveCfg = Release|Any CPU
