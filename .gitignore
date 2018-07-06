@@ -273,3 +273,6 @@ appsettings.Development.json
 
 */Views/\.DS_Store
 
+#Ignore local db files used for development
+*.db
+
