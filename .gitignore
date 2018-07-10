@@ -275,4 +275,5 @@ appsettings.Development.json
 
 #Ignore local db files used for development
 *.db
+*/app.db
 
