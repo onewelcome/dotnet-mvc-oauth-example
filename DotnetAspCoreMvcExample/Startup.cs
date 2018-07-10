@@ -44,28 +44,53 @@ namespace DotnetAspCoreMvcExample
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+ 
             services.AddAuthentication().AddOnegini(o =>
             {
-                o.ClientId = "8EC5395C7AD02E64AAAA88BAF2C5B34423A3D144F2008BA1F0C09859BBE4DAD9";
-                o.ClientSecret = "065E8CB4F3573145189EA02739E642C5AE1BADEE3150078CAEB90B4F6DFC321D";
-                o.AuthorizationEndpoint = "https://onegini-msp-snapshot.test.onegini.io/oauth/authorize";
-                o.TokenEndpoint = "https://onegini-msp-snapshot.test.onegini.io/oauth/token";
-                o.UserInformationEndpoint = "https://onegini-msp-snapshot.test.onegini.io/client/resource/profile";
-            });
+                o.ClientId = Configuration["OneginiAuth:ClientId"];
+                o.ClientSecret = Configuration["OneginiAuth:ClientSecret"];
 
+                foreach (var scope in Configuration["OneginiAuth:Scope"].Split(" "))
+                {
+                    o.Scope.Add(scope);
+                }
+                
+                o.AuthorizationEndpoint = Configuration["OneginiAuth:AuthorizationEndpoint"];
+                o.TokenEndpoint = Configuration["OneginiAuth:TokenEndpoint"];
+                o.UserInformationEndpoint = Configuration["OneginiAuth:UserInformationEndpoint"];
+            });
+            
             /*
-            services.AddAuthentication().AddOAuth("Onegini", c =>
+            //Example: how to add general OAuth -> does not work for Onegini!
+            //Read more here on how to use this: https://www.jerriepelser.com/blog/authenticate-oauth-aspnet-core-2/
+            services.AddAuthentication().AddOAuth("[ProviderName]", c =>
             {
-                c.ClientId = "8EC5395C7AD02E64AAAA88BAF2C5B34423A3D144F2008BA1F0C09859BBE4DAD9";
-                c.ClientSecret = "065E8CB4F3573145189EA02739E642C5AE1BADEE3150078CAEB90B4F6DFC321D";
+                c.ClientId = "";
+                c.ClientSecret = "";
+                c.Scope.Add("write");
                 c.Scope.Add("read");
-                c.Scope.Add("profile");
-                c.CallbackPath = "/signin-onegini";
-                c.AuthorizationEndpoint = "https://onegini-msp-snapshot.test.onegini.io/oauth/authorize";
-                c.TokenEndpoint = "https://onegini-msp-snapshot.test.onegini.io/oauth/token";
-                c.UserInformationEndpoint = "https://onegini-msp-snapshot.test.onegini.io/client/resource/profile";
-            });*/
+                c.CallbackPath = "/signin-sericex"; //Advised not to use provider name in callback -> when a zero day occurs we want to be sure that attackers can not simply find the endpoints of our customers use a custom callback url
+                c.AuthorizationEndpoint = "[url]/oauth/authorize";
+                c.TokenEndpoint = "[url]/oauth/token";
+                c.UserInformationEndpoint = "[url]/client/resource/profile";
+                c.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = async context =>
+                    {
+                        var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
+                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+                        var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                        response.EnsureSuccessStatusCode();
+
+                        var user = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                        context.RunClaimActions(user);
+                    }
+                };
+            });
+            */
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
