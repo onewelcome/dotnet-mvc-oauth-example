@@ -24,13 +24,15 @@ namespace AspNet.Security.OAuth.Onegini
             AuthorizationEndpoint = OneginiAuthenticationDefaults.AuthorizationEndPoint;
             TokenEndpoint = OneginiAuthenticationDefaults.TokenEndpoint;
             UserInformationEndpoint = OneginiAuthenticationDefaults.UserInformationEndpoint;
+            SaveTokens = true; //Now we can access the access token later on in the application
             
-            ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "full_name");
-            ClaimActions.MapJsonKey(ClaimTypes.Name, "full_name");
-            ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "date_of_birth");
-            ClaimActions.MapJsonKey(ClaimTypes.Gender, "gender");
-            ClaimActions.MapJsonKey(ClaimTypes.StreetAddress, "address");
-            ClaimActions.MapJsonKey(ClaimTypes.PostalCode, "zip_code");
+            ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
+            ClaimActions.MapJsonKey(ClaimTypes.Name, "sub");
+            ClaimActions.MapJsonKey(ClaimTypes.Email, "sub");
+            //ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "date_of_birth");
+            //ClaimActions.MapJsonKey(ClaimTypes.Gender, "gender");
+            //ClaimActions.MapJsonKey(ClaimTypes.StreetAddress, "address");
+            //ClaimActions.MapJsonKey(ClaimTypes.PostalCode, "zip_code");
         }
         
     }

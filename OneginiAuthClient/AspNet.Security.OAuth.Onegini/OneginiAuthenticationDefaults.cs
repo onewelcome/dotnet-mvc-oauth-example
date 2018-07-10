@@ -26,7 +26,7 @@ namespace AspNet.Security.OAuth.Onegini
         /// <summary>
         /// Default value for <see cref="RemoteAuthenticationOptions.CallbackPath"/>.
         /// </summary>
-        public const string CallbackPath = "/signin-external";
+        public const string CallbackPath = "/signin-external"; //Change value to whatever you whish, make sure not to use the exact value used in this example. When an exploit may be found an attacker could try to find all party's that use this endpoint. Therefore customize it! 
 
         /// <summary>
         /// Default value for <see cref="OAuthOptions.AuthorizationEndpoint"/>.

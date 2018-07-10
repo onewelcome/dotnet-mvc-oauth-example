@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DotnetAspCoreMvcExample.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotnetAspCoreMvcExample.Controllers
 {
@@ -22,6 +23,7 @@ namespace DotnetAspCoreMvcExample.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Private()
         {
             return View();
