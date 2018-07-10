@@ -4,6 +4,7 @@
     ViewData["Title"] = "Manage your external logins";
 }
 
+@* ReSharper disable once Mvc.PartialViewNotResolved *@
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 @if (Model.CurrentLogins?.Count > 0)
 {

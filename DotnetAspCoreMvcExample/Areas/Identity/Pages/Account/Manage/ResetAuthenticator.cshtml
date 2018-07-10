@@ -5,6 +5,7 @@
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
+@* ReSharper disable once Mvc.PartialViewNotResolved *@
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <h4>@ViewData["Title"]</h4>
 <div class="alert alert-warning" role="alert">
