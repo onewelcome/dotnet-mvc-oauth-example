@@ -26,6 +26,7 @@ namespace DotnetAspCoreResourceGatewayExample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSingleton<IConfiguration>(Configuration); //Make the configuration injectable
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +40,8 @@ namespace DotnetAspCoreResourceGatewayExample
             {
                 app.UseHsts();
             }
+
+            //app.UseMiddleware();
 
             app.UseHttpsRedirection();
             app.UseMvc();

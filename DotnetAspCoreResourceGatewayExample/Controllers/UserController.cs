@@ -11,17 +11,49 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET api/user
-        [HttpGet]
-        public ActionResult<User> User()
+        
+        //Sample data
+        List<User> users = new List<User>()
         {
-            return new User()
+            new User()
+            {
+                FirstName = "Test",
+                LastName = "de Tester",
+                Email = "william.loosman@onegini.com",
+                BirthDate = new DateTime(1993, 4, 23)
+            },
+            new User()
             {
                 FirstName = "Kees",
                 LastName = "Jansen",
                 Email = "kees.jansen@example.com",
-                BirthDate = new DateTime(1994, 4, 20)
-            };
+                BirthDate = new DateTime(1994, 3, 20)
+            },
+            new User()
+            {
+                FirstName = "Test",
+                LastName = "de Tester 2",
+                Email = "test.tester2@example.com",
+                BirthDate = new DateTime(2001, 7, 12)
+            },
+        };
+
+        [HttpGet]
+        [Route("/")]
+        public ActionResult<string> Home()
+        {
+            return "Welcome home";
+        } 
+        
+        // GET api/user
+        [HttpGet]
+        public ActionResult<Result> User()
+        {
+            Result r = new Result();
+            
+            
+            
+            return r;
         }
 
         // GET api/values/5
@@ -47,6 +79,12 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+        
+        [HttpGet]
+        public JsonResult Get()
+        {
+            return new JsonResult(users);
         }
     }
 }
