@@ -59,7 +59,7 @@ namespace AspNet.Security.OAuth.Onegini
             else
             {
                 var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
-                var error = "Could not retrieve acces token: " + payload;
+                var error = "Could not retrieve access token: " + payload;
                 return OAuthTokenResponse.Failed(new Exception(error));
             }
         }

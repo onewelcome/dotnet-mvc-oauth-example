@@ -6,7 +6,7 @@ namespace AspNet.Security.OAuth.Onegini
     /// <summary>
     /// Default values used by the Onegini authentication middleware.
     /// </summary>
-    public class OneginiAuthenticationDefaults
+    public static class OneginiAuthenticationDefaults
     {
         /// <summary>
         /// Default value for <see cref="AuthenticationScheme.Name"/>.
