@@ -6,6 +6,8 @@ namespace DotnetAspCoreResourceGatewayExample.Model
     [ApiController]
     public class WishListController : ControllerBase
     {
+        //These endpoints will be accessible without authentication, except when global authorize policy is set
+        
         // GET api/wishlist/5
         [HttpGet("{id}")]
         public ActionResult<WishList> GetWishList(int id)
@@ -27,11 +29,5 @@ namespace DotnetAspCoreResourceGatewayExample.Model
             
         }
 
-        [HttpGet("{id}")]
-        [Route("/item")]
-        public ActionResult<string> GetItem(int id)
-        {
-            return "item1";
-        }
     }
 }

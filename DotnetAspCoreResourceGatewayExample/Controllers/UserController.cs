@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DotnetAspCoreResourceGatewayExample.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetAspCoreResourceGatewayExample.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "ReadProfile")]
     public class UserController : ControllerBase
     {
         
@@ -47,44 +51,74 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
         
         // GET api/user
         [HttpGet]
-        public ActionResult<Result> User()
+        public ActionResult<Result> GetUser()
         {
-            Result r = new Result();
+            var r = new Result();
             
+            //Get a claim from the authenticated user
+            var identity = (ClaimsIdentity)User.Identity;
+            var userIdClaim = identity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null || string.IsNullOrEmpty(userIdClaim.Value))
+            {
+                r.succes = false;
+                r.message = "User not found";
+            }
+            else
+            {
+                r.content = users.First(i => i.Email == userIdClaim.Value);
+            }
             
             
             return r;
         }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        
+        [HttpGet]
+        [Route("claims")]
+        public ActionResult<Result> GetClaims()
         {
-            return "value";
+            
+            //Get all claims from the authenticated user and return them for debug purpose
+            var r = new Result();
+            
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+            
+            List<string> claimList = new List<string>();
+            foreach (var claim in claims)
+            {
+                claimList.Add(claim.Type + " -> " + claim.Value);
+            }
+            
+            r.content = claimList;
+            
+            return r;
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void PostUser([FromBody] string value)
         {
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void PutUser(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void DeleteUser(int id)
         {
         }
         
         [HttpGet]
-        public JsonResult Get()
+        [Route("/api/users")]
+        [Authorize(Policy = "ReadProfileAdmin")]
+        public ActionResult<Result> GetAll()
         {
-            return new JsonResult(users);
+            return new Result(){ content = users };
         }
     }
 }
