@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.SignalR;
 
-namespace DotnetAspCoreResourceGatewayExample.Model
+namespace ExampleModel.Model
 {
     public class WishList
     {

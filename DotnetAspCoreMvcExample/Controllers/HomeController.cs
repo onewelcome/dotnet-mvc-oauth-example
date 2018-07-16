@@ -26,6 +26,9 @@ namespace DotnetAspCoreMvcExample.Controllers
         [Authorize]
         public IActionResult Private()
         {
+            
+            
+            
             return View();
         }
 

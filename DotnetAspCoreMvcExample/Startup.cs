@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DotnetAspCoreMvcExample.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,13 +33,14 @@ namespace DotnetAspCoreMvcExample
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
- 
-            services.AddAuthentication().AddOnegini(o =>
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOnegini(o =>
             {
                 o.ClientId = Configuration["OneginiAuth:ClientId"];
                 o.ClientSecret = Configuration["OneginiAuth:ClientSecret"];
@@ -58,6 +53,11 @@ namespace DotnetAspCoreMvcExample
                 o.AuthorizationEndpoint = Configuration["OneginiAuth:AuthorizationEndpoint"];
                 o.TokenEndpoint = Configuration["OneginiAuth:TokenEndpoint"];
                 o.UserInformationEndpoint = Configuration["OneginiAuth:UserInformationEndpoint"];
+                o.ClaimActions.MapJsonSubKey(ClaimTypes.NameIdentifier, "content", "userId");
+                o.ClaimActions.MapJsonSubKey(ClaimTypes.Name, "content", "firstName");
+                o.ClaimActions.MapJsonSubKey(ClaimTypes.Surname, "content", "lastName");
+                o.ClaimActions.MapJsonSubKey(ClaimTypes.Email, "content", "email");
+                o.ClaimActions.MapJsonSubKey(ClaimTypes.DateOfBirth, "content", "birthDate");
             });
             
             /*
@@ -101,7 +101,6 @@ namespace DotnetAspCoreMvcExample
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {

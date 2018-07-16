@@ -1,4 +1,4 @@
-﻿namespace DotnetAspCoreResourceGatewayExample.Model
+﻿namespace ExampleModel.Model
 {
     public class Result
     {

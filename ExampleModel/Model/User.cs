@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DotnetAspCoreResourceGatewayExample.Model
+namespace ExampleModel.Model
 {
     //Person, User, Profile or whatever...
     public class User

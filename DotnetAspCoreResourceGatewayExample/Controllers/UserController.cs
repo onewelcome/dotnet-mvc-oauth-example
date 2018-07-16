@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using DotnetAspCoreResourceGatewayExample.Model;
+using ExampleModel.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +19,15 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
         {
             new User()
             {
-                FirstName = "Test",
+                UserId = 12,
+                FirstName = "Person 1",
                 LastName = "de Tester",
                 Email = "william.loosman@onegini.com",
                 BirthDate = new DateTime(1993, 4, 23)
             },
             new User()
             {
+                UserId = 44,
                 FirstName = "Kees",
                 LastName = "Jansen",
                 Email = "kees.jansen@example.com",
@@ -35,6 +35,7 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
             },
             new User()
             {
+                UserId = 23,
                 FirstName = "Test",
                 LastName = "de Tester 2",
                 Email = "test.tester2@example.com",

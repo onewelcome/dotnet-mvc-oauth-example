@@ -66,7 +66,7 @@ namespace AspNet.Security.OAuth.Onegini
         
         protected override async Task<AuthenticationTicket> CreateTicketAsync(ClaimsIdentity identity, AuthenticationProperties properties, OAuthTokenResponse tokens)
         {
-
+            /*
             //Get data from /oauth/api/v1/token/introspect directly
             var basicAuthHeader = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes($"TestValidationClientId:TestValidationClientSecret"));
             var tokenRequestParameters = new Dictionary<string, string>()
@@ -79,13 +79,14 @@ namespace AspNet.Security.OAuth.Onegini
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Add("Authorization", basicAuthHeader);
             request.Content = requestContent;
+            */
             
-            /*
+            
             //Get data from Resource gateway
             var request = new HttpRequestMessage(HttpMethod.Get, Options.UserInformationEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokens.AccessToken);
-            */
+            
             
             var response = await Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, Context.RequestAborted);
             response.EnsureSuccessStatusCode();

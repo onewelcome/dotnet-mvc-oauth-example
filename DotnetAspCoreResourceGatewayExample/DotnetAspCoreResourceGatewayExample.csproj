@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExampleModel\ExampleModel.csproj" />
     <ProjectReference Include="..\OneginiAuthClient\OneginiAuthClient.csproj" />
   </ItemGroup>
 </Project>

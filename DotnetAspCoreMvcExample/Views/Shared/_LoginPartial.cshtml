@@ -1,31 +1,12 @@
-@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-
-@if (SignInManager.IsSignedIn(User))
+<ul class="nav navbar-nav navbar-right">
+@if (User.Identity.IsAuthenticated)
 {
-    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
-            </li>
-        </ul>
-    </form>
+    <li><a asp-controller="Account" asp-action="Profile">@User.Identity.Name</a></li>
+    <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
+
 }
 else
 {
-    var ExternalLogins = await SignInManager.GetExternalAuthenticationSchemesAsync();
-    var provider = ExternalLogins.First(); //If you only use onegini this should be the onegini OAuth provider
-    
-    <form asp-area="Identity" asp-page="/Account/ExternalLogin" asp-route-returnUrl="@Context.Request.Path" method="post" class="form-horizontal">
-        <ul class="nav navbar-nav navbar-right">
-            @* <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li> *@
-            <li><button type="submit" class="btn btn-link" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">Login</button></li>
-        </ul>
-    </form>
-    
+    <li><a asp-controller="Account" asp-action="Login">Login</a></li>
 }
+</ul>

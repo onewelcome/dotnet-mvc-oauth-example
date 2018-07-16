@@ -26,9 +26,10 @@ namespace AspNet.Security.OAuth.Onegini
             UserInformationEndpoint = OneginiAuthenticationDefaults.UserInformationEndpoint;
             SaveTokens = true; //Now we can access the access token later on in the application
             
-            ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
-            ClaimActions.MapJsonKey(ClaimTypes.Name, "sub");
-            ClaimActions.MapJsonKey(ClaimTypes.Email, "sub");
+            //Consideration -> you can add default claims
+            //ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
+            //ClaimActions.MapJsonKey(ClaimTypes.Name, "sub");
+            //ClaimActions.MapJsonKey(ClaimTypes.Email, "sub");
             //ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "date_of_birth");
             //ClaimActions.MapJsonKey(ClaimTypes.Gender, "gender");
             //ClaimActions.MapJsonKey(ClaimTypes.StreetAddress, "address");
