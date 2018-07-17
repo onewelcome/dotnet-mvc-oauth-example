@@ -74,8 +74,6 @@ namespace DotnetAspCoreResourceGatewayExample
                 app.UseHsts();
             }
             
-            //app.UseMiddleware();
-            
             app.UseAuthentication();
             
             app.UseHttpsRedirection();
