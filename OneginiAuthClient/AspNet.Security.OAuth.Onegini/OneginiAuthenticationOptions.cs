@@ -13,6 +13,11 @@ namespace AspNet.Security.OAuth.Onegini
     public class OneginiAuthenticationOptions : OAuthOptions{
         
         /// <summary>
+        /// Get or set the endpoint used to revoke the access token
+        /// </summary>
+        public string RevokeTokenEndpoint { get; set; }
+        
+        /// <summary>
         /// Initialize a new instance of the <see cref="OneginiAuthenticationOptions"/> class.
         /// </summary>
         public OneginiAuthenticationOptions()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.Onegini;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -26,15 +27,16 @@ namespace DotnetAspCoreMvcExample.Controllers
         }
 
         [Authorize]
-        public async Task Logout()
+        public async Task<IActionResult> Logout()
         {
             //Remove session data from cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             //todo: revoke access token
+            await HttpContext.SignOutAsync(OneginiAuthenticationDefaults.AuthenticationScheme);
             
             //todo: redirect
-            Redirect("/");
+            return Redirect("/");
         }
 
         [Authorize]

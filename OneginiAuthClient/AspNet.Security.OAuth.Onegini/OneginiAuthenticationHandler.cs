@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 
 namespace AspNet.Security.OAuth.Onegini
 {
-    public class OneginiAuthenticationHandler : OAuthHandler<OneginiAuthenticationOptions>
+    public class OneginiAuthenticationHandler : OAuthHandler<OneginiAuthenticationOptions>, IAuthenticationSignOutHandler
     {
         public OneginiAuthenticationHandler(
             IOptionsMonitor<OneginiAuthenticationOptions> options,
@@ -66,30 +66,13 @@ namespace AspNet.Security.OAuth.Onegini
         
         protected override async Task<AuthenticationTicket> CreateTicketAsync(ClaimsIdentity identity, AuthenticationProperties properties, OAuthTokenResponse tokens)
         {
-            /*
-            //Get data from /oauth/api/v1/token/introspect directly
-            var basicAuthHeader = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes($"TestValidationClientId:TestValidationClientSecret"));
-            var tokenRequestParameters = new Dictionary<string, string>()
-            {
-                { "token", tokens.AccessToken },
-            };
-            var requestContent = new FormUrlEncodedContent(tokenRequestParameters);
-            
-            var request = new HttpRequestMessage(HttpMethod.Post, Options.UserInformationEndpoint);
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.Add("Authorization", basicAuthHeader);
-            request.Content = requestContent;
-            */
-            
-            
             //Get data from Resource gateway
             var request = new HttpRequestMessage(HttpMethod.Get, Options.UserInformationEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokens.AccessToken);
             
-            
             var response = await Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, Context.RequestAborted);
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
             
             if (!response.IsSuccessStatusCode)
             {
@@ -107,6 +90,33 @@ namespace AspNet.Security.OAuth.Onegini
             
             await Options.Events.CreatingTicket(context);
             return new AuthenticationTicket(context.Principal, context.Properties, Scheme.Name);
+        }
+
+        public async Task SignOutAsync(AuthenticationProperties properties)
+        {
+            //Revoke the access token
+            var basicAuthHeader = "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Options.ClientId}:{Options.ClientSecret}"));
+
+            var token = await Context.GetTokenAsync("access_token");
+            var tokenRequestParameters = new Dictionary<string, string>()
+            {
+                { "token",  token},
+            };
+
+            var requestContent = new FormUrlEncodedContent(tokenRequestParameters);
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, Options.RevokeTokenEndpoint);
+            requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
+            requestMessage.Headers.Add("Authorization", basicAuthHeader);
+            requestMessage.Content = requestContent;
+            
+            var response = await Backchannel.SendAsync(requestMessage, Context.RequestAborted);
+            if (!response.IsSuccessStatusCode)
+            {
+                //Consideration -> log error
+            }
+            
         }
     }
 }

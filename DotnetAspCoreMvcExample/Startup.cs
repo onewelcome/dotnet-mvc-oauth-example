@@ -53,6 +53,7 @@ namespace DotnetAspCoreMvcExample
                 o.AuthorizationEndpoint = Configuration["OneginiAuth:AuthorizationEndpoint"];
                 o.TokenEndpoint = Configuration["OneginiAuth:TokenEndpoint"];
                 o.UserInformationEndpoint = Configuration["OneginiAuth:UserInformationEndpoint"];
+                o.RevokeTokenEndpoint = Configuration["OneginiAuth:RevokeTokenEndpoint"];
                 o.ClaimActions.MapJsonSubKey(ClaimTypes.NameIdentifier, "content", "userId");
                 o.ClaimActions.MapJsonSubKey(ClaimTypes.Name, "content", "firstName");
                 o.ClaimActions.MapJsonSubKey(ClaimTypes.Surname, "content", "lastName");
@@ -69,7 +70,7 @@ namespace DotnetAspCoreMvcExample
                 c.ClientSecret = "";
                 c.Scope.Add("write");
                 c.Scope.Add("read");
-                c.CallbackPath = "/signin-sericex"; //Advised not to use provider name in callback -> when a zero day occurs we want to be sure that attackers can not simply find the endpoints of our customers use a custom callback url
+                c.CallbackPath = "/signin-servicex"; //Advised not to use provider name in callback -> when a zero day occurs we want to be sure that attackers can not simply find the endpoints of our customers use a custom callback url
                 c.AuthorizationEndpoint = "[url]/oauth/authorize";
                 c.TokenEndpoint = "[url]/oauth/token";
                 c.UserInformationEndpoint = "[url]/client/resource/profile";
@@ -91,7 +92,9 @@ namespace DotnetAspCoreMvcExample
                 };
             });
             */
-
+            
+            services.AddSingleton<HttpClient>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

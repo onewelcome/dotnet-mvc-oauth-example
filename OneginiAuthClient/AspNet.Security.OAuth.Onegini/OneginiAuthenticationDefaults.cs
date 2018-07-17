@@ -48,5 +48,13 @@ namespace AspNet.Security.OAuth.Onegini
         /// When we provide one cloud based oAuth solution we probably would configure the default endpoints.
         /// </summary>
         public const string UserInformationEndpoint = null;
+        
+        /// <summary>
+        /// Default value for <see cref="OAuthOptions.RevokeTokenEndpoint"/>.
+        /// Currently there is no default value for this endpoint, the endpoint differiates per customer.
+        /// When we provide one cloud based oAuth solution we probably would configure the default endpoints.
+        /// </summary>
+        public const string RevokeTokenEndpoint = null;
+        
     }
 }
