@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using DotnetAspCoreMvcExample.Services.ApiClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -61,39 +62,8 @@ namespace DotnetAspCoreMvcExample
                 o.ClaimActions.MapJsonSubKey(ClaimTypes.DateOfBirth, "content", "birthDate");
             });
             
-            /*
-            //Example: how to add general OAuth -> does not work for Onegini!
-            //Read more here on how to use this: https://www.jerriepelser.com/blog/authenticate-oauth-aspnet-core-2/
-            services.AddAuthentication().AddOAuth("[ProviderName]", c =>
-            {
-                c.ClientId = "";
-                c.ClientSecret = "";
-                c.Scope.Add("write");
-                c.Scope.Add("read");
-                c.CallbackPath = "/signin-servicex"; //Advised not to use provider name in callback -> when a zero day occurs we want to be sure that attackers can not simply find the endpoints of our customers use a custom callback url
-                c.AuthorizationEndpoint = "[url]/oauth/authorize";
-                c.TokenEndpoint = "[url]/oauth/token";
-                c.UserInformationEndpoint = "[url]/client/resource/profile";
-                c.Events = new OAuthEvents
-                {
-                    OnCreatingTicket = async context =>
-                    {
-                        var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-
-                        var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
-                        response.EnsureSuccessStatusCode();
-
-                        var user = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                        context.RunClaimActions(user);
-                    }
-                };
-            });
-            */
-            
-            services.AddSingleton<HttpClient>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IApiClient, ResourceGatewayClient>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

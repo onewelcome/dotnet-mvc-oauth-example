@@ -19,7 +19,7 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
         {
             new User()
             {
-                UserId = 12,
+                UserId = "12",
                 FirstName = "Person 1",
                 LastName = "de Tester",
                 Email = "william.loosman@onegini.com",
@@ -27,7 +27,7 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
             },
             new User()
             {
-                UserId = 44,
+                UserId = "44",
                 FirstName = "Kees",
                 LastName = "Jansen",
                 Email = "kees.jansen@example.com",
@@ -35,7 +35,7 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
             },
             new User()
             {
-                UserId = 23,
+                UserId = "93",
                 FirstName = "Test",
                 LastName = "de Tester 2",
                 Email = "test.tester2@example.com",
@@ -67,9 +67,15 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
             }
             else
             {
-                r.content = users.First(i => i.Email == userIdClaim.Value);
+                //Query user data
+                
+                //In the example we just return a static user with UserId set to whatever is used in the `sub` field
+                users[0].UserId = userIdClaim.Value;
+                r.content = users[0];
+
+                //Example find user data based on `sub` as email
+                //r.content = users.First(i => i.Email == userIdClaim.Value);
             }
-            
             
             return r;
         }

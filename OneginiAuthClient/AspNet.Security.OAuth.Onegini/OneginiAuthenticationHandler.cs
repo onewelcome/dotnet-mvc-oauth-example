@@ -58,7 +58,8 @@ namespace AspNet.Security.OAuth.Onegini
             }
             else
             {
-                var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
+                //var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
+                var payload = await response.Content.ReadAsStringAsync();
                 var error = "Could not retrieve access token: " + payload;
                 return OAuthTokenResponse.Failed(new Exception(error));
             }
@@ -76,7 +77,8 @@ namespace AspNet.Security.OAuth.Onegini
             
             if (!response.IsSuccessStatusCode)
             {
-                var errorPayload = JObject.Parse(await response.Content.ReadAsStringAsync());
+                //var errorPayload = JObject.Parse(await response.Content.ReadAsStringAsync());
+                var errorPayload = await response.Content.ReadAsStringAsync();
                 var error = "Could not retrieve user profile: " + errorPayload;
                 
                 throw new HttpRequestException(error);
@@ -116,7 +118,6 @@ namespace AspNet.Security.OAuth.Onegini
             {
                 //Consideration -> log error
             }
-            
         }
     }
 }

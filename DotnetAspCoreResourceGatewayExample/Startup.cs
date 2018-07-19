@@ -28,12 +28,12 @@ namespace DotnetAspCoreResourceGatewayExample
                 o.DefaultAuthenticateScheme = OneginiBearerOptions.DefaultScheme;
                 o.DefaultChallengeScheme = OneginiBearerOptions.DefaultScheme;
             })
-                .AddOneginiBearer(o =>
-                {
-                    o.TokenIntrospectionEndpoint = Configuration["OneginiAuth:TokenIntrospectionEndpoint"]; //Introspect endpoint, example -> https://domain.com/oauth/api/v1/token/introspect 
-                    o.ClientId = Configuration["OneginiAuth:ClientId"]; //The 'Client ID' of the Token introspection API
-                    o.ClientSecret = Configuration["OneginiAuth:ClientSecret"]; //The 'Client secret' of the Token introspection API
-                });
+            .AddOneginiBearer(o =>
+            {
+                o.TokenIntrospectionEndpoint = Configuration["OneginiAuth:TokenIntrospectionEndpoint"]; //Introspect endpoint, example -> https://domain.com/oauth/api/v1/token/introspect 
+                o.ClientId = Configuration["OneginiAuth:ClientId"]; //The 'Client ID' of the Token introspection API
+                o.ClientSecret = Configuration["OneginiAuth:ClientSecret"]; //The 'Client secret' of the Token introspection API
+            });
             
             //Create scope policies, more info on policy -> https://docs.microsoft.com/en-us/aspnet/core/security/authorization/claims?view=aspnetcore-2.1
             //This is just an example of how to add authorization based on scope and amr. Omit this when only

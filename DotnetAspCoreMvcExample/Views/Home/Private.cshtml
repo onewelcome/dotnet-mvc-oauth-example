@@ -1,2 +1,13 @@
 ﻿<h1>Private page</h1>
 <p>This page should only be visable when the user has an active session.</p>
+
+@if (ViewData["gatewayClaims"] != null)
+{
+    <strong>Your claims on the resource gateway</strong>
+    <ul>
+        @foreach (var claim in (List<string>)ViewData["gatewayClaims"])
+        {
+            <li>@claim</li>
+        }
+    </ul>
+}
