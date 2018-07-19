@@ -15,6 +15,15 @@
     <ProjectReference Include="..\OneginiAuthClient\OneginiAuthClient.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas" />
+    <Compile Remove="Areas\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Areas\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Areas\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Areas\**" />
   </ItemGroup>
 </Project>
