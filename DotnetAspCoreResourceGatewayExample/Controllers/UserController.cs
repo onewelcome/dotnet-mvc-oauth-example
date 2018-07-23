@@ -22,7 +22,7 @@ namespace DotnetAspCoreResourceGatewayExample.Controllers
                 UserId = "12",
                 FirstName = "Person 1",
                 LastName = "de Tester",
-                Email = "william.loosman@onegini.com",
+                Email = "test.persoon@onegini.com",
                 BirthDate = new DateTime(1993, 4, 23)
             },
             new User()
