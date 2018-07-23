@@ -16,7 +16,7 @@ namespace DotnetAspCoreMvcExample.Controllers
     {
         public async Task Login(string returnUrl = "/")
         {
-            await HttpContext.ChallengeAsync("Onegini", new AuthenticationProperties() { RedirectUri = returnUrl });
+            await HttpContext.ChallengeAsync(OneginiAuthenticationDefaults.AuthenticationScheme, new AuthenticationProperties() { RedirectUri = returnUrl });
         }
 
         [Authorize]
@@ -25,13 +25,13 @@ namespace DotnetAspCoreMvcExample.Controllers
             //Remove session data from cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             
-            //Revoke access token
+            //*Optional -> Revoke access token
             await HttpContext.SignOutAsync(OneginiAuthenticationDefaults.AuthenticationScheme);
             
             return Redirect("/");
             
             //Use this when you want to logout trough the identity provider
-            //The Identity provider automatically revokes the access token, when you use this comment out this line -> `HttpContext.SignOutAsync(OneginiAuthenticationDefaults.AuthenticationScheme)`
+            //The Identity provider automatically revokes the access token, when you use this make sure you also comment out this line 29
             //return Redirect("https://[ipdDomain]/personal/logout?origin=https://[returndomain]"); //Example url -> https://cim.domain.com/personal/logout?origin=https://localhost:5001
         }
 

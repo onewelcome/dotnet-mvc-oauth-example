@@ -42,7 +42,7 @@ The resource gateway provides the users data and will authenticate using a beare
 
 #### 2.1.1 Setup middleware
 
-When you create a new ASP.NET Core project choose the API template without authentication. In the `Startup.cs` file we
+When you create an new ASP.NET Core project choose the API template without authentication. In the `Startup.cs` file we
 can configurate our middleware. The default middleware offered by the ASP.NET framework does not cover what we need so
 we have to implement a custom autentication middleware. 
 
@@ -50,8 +50,8 @@ In the exmple we extend the `AuthenticationHandler` middleware to validate the a
 frameworks default authentication flow. Take a look inside `~/OneginiAuthClient/Onegini.AspNetCore.Authentication.OneginiBearer`
 . You'll find three classes:
 
-1. `OneginiBearerExtensions` -> Used to extend the authentication builder so we can easily add out custom middleware;
-2. `OneginiBearerHandler` -> The handler that will be called on each request to validate the acces token;
+1. `OneginiBearerExtensions` -> Used to extend the authentication builder so we can easily add our custom middleware;
+2. `OneginiBearerHandler` -> The handler that will be called on each request to validate the access token;
 3. `OneginiBearerOptions` -> The options we'll use to configure the handler inside `Startup.cs`.
 
 Implement these three classes either directly or through a library into your project. Note that this is just an example,
@@ -126,7 +126,7 @@ When the loggin is successfull the user is redirected back where he was before t
 
 #### 2.2.1 Setup middleware
 
-ASP.NET Core provides a OAuth autentication middleware by default. However we are required to implement our own 
+ASP.NET Core provides an OAuth autentication middleware by default. However we are required to implement our own 
 `OAuthHandler` becouse the standard handler made by Microsoft does not work with the Onegini token server. This is 
 due to a conflict in the implementation of the [RFC 6749](https://tools.ietf.org/html/rfc6749#section-2.3.2). To fix 
 this issue we implemented our own `OAuthHandler` in the example. Take a look inside `~/OneginiAuthClient/AspNet.Security.OAuth.Onegini`.
@@ -140,12 +140,12 @@ The `OneginiAuthenticationHandler` exists of three methods:
 2. `CreateTicketAsync` -> Queries the Resource gateway to get user data and creates ticket to log in the user; 
 3. `SignOutAsync` -> Revokes access token when signout event is called. When single-signout is used this is not necessary.
 
-Implement these three classes either directly or through a library into your project. Note that this is just an example, 
+Implement the four classes either directly or through a library into your project. Note that this is just an example, 
 inspect the code and change it for your situation.
 
 #### 2.2.2 Configure middleware
 
-When the middleware implemetation is in place we can configure ASP.NET Core to use it. Before we can test this you'll 
+When the middleware implemetation is in place we can configure ASP.NET Core to use it. Before we can use this you'll 
 need to register a web client in the Onegini admin panel. You can find this under *Configuration -> Web clients*.
 
 You'll need these values to continue:
@@ -255,7 +255,7 @@ You set your login or logout UI elements like this:
     
 #### 2.2.4 Use the resource gateway
 
-When you want to query the resource gateway you need to authenticate useing the access token. You can retrive the
+When you want to query the resource gateway you need to authenticate using the access token. You can retrive the
 token inside a controller like this:
     
     var accessToken = await HttpContext.GetTokenAsync("access_token");
