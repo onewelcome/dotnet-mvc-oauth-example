@@ -6,7 +6,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
+    <!-- Overriding to fix vulnerability CVE-2018-8292,
+         once Microsoft.EntityFrameworkCore.Sqlite includes this version or higher remove the override -->
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
+    <!-- Overriding to fix vulnerability SNYK-DOTNET-NEWTONSOFTJSON-2774678,
+         once Microsoft.VisualStudio.Web.CodeGeneration.Design includes this version or higher remove the override -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
